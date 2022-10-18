@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  backend:
+    build:
+      context: ./django/backend
+    command: gunicorn backend.wsgi --bind 0.0.0.0:6000
+    ports:
+    
+      - "6000:6000"
+  frontend:
+    build:
+      context: ./react/frontend
+    volumes:
+      - react_build:/react/build
+  nginx:
+    image: nginx:latest
+    ports:
+      - 8090:5080
+    volumes:
+      - ./nginx/nginx-setup.conf:/etc/nginx/conf.d/default.conf:ro
+      - react_build:/var/www/react
+      - ./django/backend/static:/static
+
+    depends_on:
+      - backend
+      - frontend
+volumes:
+  react_build:
+
+ 
