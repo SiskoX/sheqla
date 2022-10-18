@@ -58,4 +58,9 @@ class ShoeView(APIView):
         serializers = ShoeSerializer(shoe_,many=True)
         return Response(serializers.data)
 
-    def post (self,)
+    def post (self,request):
+        data = request.data 
+        serializer  = ShoeSerializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
