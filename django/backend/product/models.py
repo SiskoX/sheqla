@@ -1,4 +1,5 @@
 from email.policy import default
+from random import choices
 from secrets import choice
 from unicodedata import category
 from unittest.util import _MAX_LENGTH
@@ -7,7 +8,7 @@ from django.utils.text import slugify
 # Create your models here.
 from mptt.models import MPTTModel, TreeForeignKey
 from django.urls import reverse
-from .gear import  BOOK_CONDITION,BUSINESS_INDUSTRIAL,CLOTH_SHOES_WATCHES_CONDITION,ELECTORINCS,FOOD_BEVERAGES_CONDTION,HEALTH_BEAUTY_CONDTION,MOTORS_CONDTIOND,MOVIES_TV_MUSIC_VIDEO_GAMES_CONDTION,SPARE_PARTS,TOY_CONDITION
+from .gear import ART_RARITY, BOOK_CONDITION,BUSINESS_INDUSTRIAL,CLOTH_SHOES_WATCHES_CONDITION,ELECTORINCS,FOOD_BEVERAGES_CONDTION,HEALTH_BEAUTY_CONDTION,MOTORS_CONDTIOND,MOVIES_TV_MUSIC_VIDEO_GAMES_CONDTION,SPARE_PARTS,TOY_CONDITION
 
 
 class Category(MPTTModel):
@@ -60,11 +61,22 @@ class Shoe_Addtional(models.Model):
     bodybuliding = models.BooleanField(default=False)
     football = models.BooleanField(default=False)
 
+
+class Cloth_Fiber_Content(models.Model):
+    cotton = models.BooleanField(default=False)
+    linen = models.BooleanField(default=False)
+    synthetic = models.BooleanField(default=False)
+    silk = models.BooleanField(default=False)
+
+
+
 class Cloth(CommonInfo):
     handmade =models.BooleanField(default=False)
     color = models.CharField(max_length = 30)
     brand = models.CharField(max_length=40)
-   
+    condition = models.CharField(choices=CLOTH_SHOES_WATCHES_CONDITION,default='None',max_length=20 )
+    country_manufacture = models.CharField(max_length=20)
+
 
 class Shoe(CommonInfo):
      
@@ -79,7 +91,7 @@ class Shoe(CommonInfo):
     
     customized = models.BooleanField(default=False)
     shilhouette  = models.CharField(max_length=50, blank=True, null=True)
-    country_manufacture = models.CharField(max_length=20)
+    country_manufacture = models.CharField(max_length=20 ,blank=True ,null= True)
 
 class Sport(CommonInfo):
  
@@ -96,3 +108,16 @@ class Industrial(CommonInfo):
     price = models.FloatField()
     item_location = models.ForeignKey('Location',on_delete=models.CASCADE)
 
+
+
+class Art(CommonInfo):
+     
+    artist = models.CharField(max_length=40)
+    style = models.CharField(max_length=40)
+    material = models.CharField(max_length=40)
+    year_production = models.DateField()
+    paint_color  =models.CharField(max_length=30)
+    height = models.FloatField()
+    width = models.FloatField()
+    rarity = models.CharField(choices=ART_RARITY,default='None',max_length=40)
+   
