@@ -60,10 +60,11 @@ class Shoe_Addtional(models.Model):
     bodybuliding = models.BooleanField(default=False)
     football = models.BooleanField(default=False)
 
-# class Cloth(models.Model):
-#     handmade =models.BooleanField(default=False)
-#     color = models.CharField(max_length = 30)
-#     brand = models.CharField(max_length=40)
+class Cloth(CommonInfo):
+    handmade =models.BooleanField(default=False)
+    color = models.CharField(max_length = 30)
+    brand = models.CharField(max_length=40)
+   
 
 class Shoe(CommonInfo):
      
@@ -80,11 +81,18 @@ class Shoe(CommonInfo):
     shilhouette  = models.CharField(max_length=50, blank=True, null=True)
     country_manufacture = models.CharField(max_length=20)
 
-class Football(CommonInfo):
+class Sport(CommonInfo):
  
     team = models.CharField(max_length=20)
     player_name = models.CharField(max_length=20)
     color = models.CharField(max_length=20)
+
+    class Meta:
+        abstract =True
      
 
     
+class Industrial(CommonInfo):
+    price = models.FloatField()
+    item_location = models.ForeignKey('Location',on_delete=models.CASCADE)
+
